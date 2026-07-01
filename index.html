@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lan="en">
+  <header>
+     <title>Home Page</title>
+     <link rel="stylesheet" href="main.css">
+  </header>
+  <body>
+     <div class="box">
+       <h3 class="app-title">Expense Tracker</h3>
+       <div class="second-box">
+          <div class="cards">
+             <h4 class="balance" id="current-balance">Current Balance</h4>
+             <h4 class="last-expense" id="last-expense">Last Transaction</h4>
+          </div>
+       </div>
+       
+        <button  id="addBtn" onclick="showForm()">Add transaction</button>
+          
+        <form id="myForm" class="hidden" >
+          <input type="text" placeholder="Title" id="input-title"/>
+          <input type="number" placeholder="Amount" id="input-amount"/> <br>
+          <!-- ><input type="text" placeholder="income or expense" id="input-type"/>  -->
+           <label for="input-type">chose type</label>
+          <select name="types" id="input-type">
+             <option value="income" id="input-icome">income</option>
+             <option value="expense" id="input-expense">expense</option>
+           </select>
+          <input type="date" placeholder="date" id="input-date"/>
+          <button type="submit" >Save </button>
+        </form>
+        
+         <h4 id="last-title" class="hidden1">Last 3 Transactions</h4>   
+        <ul id="transaction-list">
+           
+        </ul>
+
+         
+        <form id="mynewForm" class="hidden" onsubmit="saveEdit(event); return false;">
+          <input type="text" placeholder="Title" id="update-title"/>
+          <input type="number" placeholder="Amount" id="update-amount"/><br>
+          <!-- ><input type="text" placeholder="income or expense" id="input-type"/>  -->
+           <label for="input-type">chose type</label> 
+          <select name="types" id="input-type">
+             <option value="income" id="input-icome">income</option>
+             <option value="expense" id="input-expense">expense</option>
+           </select>
+          <input type="date" placeholder="date" id="update-date"/>
+          <button type="submit">Save Edit</button>
+        </form>
+     </div>
+    <script src="main.js"></script>
+  </body>
+</html>
