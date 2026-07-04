@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lan="en">
-  <header>
+<html lang="en">
+  <head>
      <title>Home Page</title>
      <link rel="stylesheet" href="main.css">
-  </header>
+  </head>
   <body>
      <div class="box">
        <h3 class="app-title">Expense Tracker</h3>
@@ -17,15 +17,15 @@
         <button  id="addBtn" onclick="showForm()">Add transaction</button>
           
         <form id="myForm" class="hidden" >
-          <input type="text" placeholder="Title" id="input-title"/>
-          <input type="number" placeholder="Amount" id="input-amount"/> <br>
+          <input type="text" placeholder="Title" required id="input-title"/>
+          <input type="number" placeholder="Amount" required id="input-amount"/> <br>
           <!-- ><input type="text" placeholder="income or expense" id="input-type"/>  -->
            <label for="input-type">chose type</label>
-          <select name="types" id="input-type">
+          <select name="types" required id="input-type">
              <option value="income" id="input-icome">income</option>
              <option value="expense" id="input-expense">expense</option>
            </select>
-          <input type="date" placeholder="date" id="input-date"/>
+          <input type="date" placeholder="date" required id="input-date"/>
           <button type="submit" >Save </button>
         </form>
         
@@ -36,15 +36,15 @@
 
          
         <form id="mynewForm" class="hidden" onsubmit="saveEdit(event); return false;">
-          <input type="text" placeholder="Title" id="update-title"/>
-          <input type="number" placeholder="Amount" id="update-amount"/><br>
+          <input type="text" placeholder="Title" required id="update-title"/>
+          <input type="number" placeholder="Amount" required id="update-amount"/><br>
           <!-- ><input type="text" placeholder="income or expense" id="input-type"/>  -->
-           <label for="input-type">chose type</label> 
-          <select name="types" id="input-type">
+           <label for="update-type">chose type</label> 
+          <select name="types" required id="update-type">
              <option value="income" id="input-icome">income</option>
              <option value="expense" id="input-expense">expense</option>
            </select>
-          <input type="date" placeholder="date" id="update-date"/>
+          <input type="date" placeholder="date" required id="update-date"/>
           <button type="submit">Save Edit</button>
         </form>
      </div>

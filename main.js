@@ -1,9 +1,6 @@
 let transactions=[];
 
-let transtitle;
-let transtype;
-let transamount;
-let transdate;
+
 
 let form = document.getElementById("myForm");
 
@@ -15,19 +12,21 @@ function addTransaction(){
  
      console.log("Add Transaction");
 
-  transtitle= document.getElementById("input-title").value;
-  transtype= document.getElementById("input-type").value;
-  transamount= document.getElementById("input-amount").value;
-  transdate= document.getElementById("input-date").value;
-
-  let transaction = {id:transactions.length +1 , title: transtitle , type: transtype , amount: Number(transamount) , date:transdate};
+    const transtitle=document.getElementById("input-title").value;
+    const transtype= document.getElementById("input-type").value;
+    const transamount= document.getElementById("input-amount").value;
+    const transdate =document.getElementById("input-date").value;
+    if (transamount<=0){
+        alert("The amount must be grater than 0");
+    } else{
+  let transaction = {id: Date.now() , title: transtitle , type: transtype , amount: Number(transamount) , date:transdate};
   transactions.push(transaction);
   form.reset();
   form.classList.add("hidden");
   console.log(transactions);
   displayTransaction();
   balanceshow();
-  lastexpense();
+  lastexpense();}
   
 };
 
@@ -35,21 +34,22 @@ function addTransaction(){
 function balanceshow(){
     let income =0; 
     let expense =0;
-    for (let i=0; i<transactions.length; i++){
-     if (transactions[i].type === "income"){
-      income +=transactions[i].amount;
-   } else{
-      expense +=(transactions[i].amount);
-   };
-   }
-   let balance= income - expense; 
-   document.getElementById("current-balance").innerHTML=`The curreant balance ${balance}SR`;
+    transactions.forEach(function(x){
+    
+     if (x.type === "income"){
+      income +=x.amount;
+    } 
+    else{
+      expense +=x.amount;
+    }
+   });
+   
+   const balance= income - expense; 
+   document.getElementById("current-balance").innerHTML=`The curreant balance ${balance} SR`;
 }; 
 
 
 const transactionList = document.getElementById("transaction-list");
-
-
 
 
 function displayTransaction(){
@@ -82,46 +82,41 @@ function displayTransaction(){
   function editTransaction(id){
 
     currentEditId = id;
-
+    
     let updateForm = document.getElementById("mynewForm");
     updateForm.classList.remove("hidden");
 
-    for(let i = 0; i < transactions.length; i++){
-
-        if(transactions[i].id === id){
-
-            document.getElementById("update-title").value = transactions[i].title;
-            document.getElementById("update-type").value = transactions[i].type;
-            document.getElementById("update-amount").value = transactions[i].amount;
-            document.getElementById("update-date").value = transactions[i].date;
-
+    
+    
+        transactions.find(function(x){
+           if(x.id === id) {
+            document.getElementById("update-title").value = x.title;
+            document.getElementById("update-type").value = x.type;
+            document.getElementById("update-amount").value = x.amount;
+            document.getElementById("update-date").value = x.date;
         }
-
-    }
-   
-}
+       })      
+     
+};
 
   function saveEdit(event){
-    event.preventDefault();
-
-    for(let i=0; i<transactions.length; i++){
-
-        if(transactions[i].id === currentEditId){
-
-            transactions[i].title = document.getElementById("update-title").value;
-
-            transactions[i].type = document.getElementById("input-type").value;
-
-            transactions[i].amount = document.getElementById("update-amount").value;
-
-            transactions[i].date = document.getElementById("update-date").value;
-
+    const amount= Number(document.getElementById("update-amount").value);
+    
+     if(amount <= 0 ){
+           return alert("The amount must be grater than 0");
         }
-
-    }
-
+         
+    
+        transactions.find(function(x){
+            if (x.id === currentEditId)
+       
+            x.title = document.getElementById("update-title").value;
+            x.type = document.getElementById("update-type").value;
+            x.amount = Number(document.getElementById("update-amount").value);
+            x.date = document.getElementById("update-date").value; 
+        });
+         
     document.getElementById("mynewForm").reset();
-
     document.getElementById("mynewForm").classList.add("hidden");
 
     currentEditId = null;
@@ -129,7 +124,7 @@ function displayTransaction(){
     displayTransaction();
     balanceshow();
     lastexpense();
-}
+};
     
  
 form.addEventListener("submit", function(event){
@@ -146,26 +141,33 @@ form.addEventListener("submit", function(event){
 
 function deleteTransaction(id){
     
-   for (let i=0; i<transactions.length; i++){
-     if( transactions[i].id === id){
-       transactions.splice(i, 1);
-       break;
-     }
-   }
+     
+     const index = transactions.findIndex(function(x){
+       
+        return x.id === id;     
+  });
+     if (index !== -1){
+    transactions.splice(index, 1);}
   
     displayTransaction();
     balanceshow();
-}
+    lastexpense();
+     
+    const title = document.getElementById("last-title");
+    if (transactions.length == 0){
+        title.classList.add("hidden1");  
+    }
+};
 
 function lastexpense(){
    let lastexpense= document.getElementById("last-expense");
     if (transactions.length === 0){
-      return `No transatcion ` ;
+      return lastexpense.innerHTML="No Transzctions" ;
     }
      else{
     lastexpense.innerHTML=`last transaction is ${transactions[transactions.length - 1].type}
     ( ${transactions[transactions.length - 1].title} )
-     - ${transactions[transactions.length - 1].amount} SR`;
+     amount: ${transactions[transactions.length - 1].amount} SR`;
    };
 };
 
