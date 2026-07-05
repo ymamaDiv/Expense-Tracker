@@ -88,14 +88,14 @@ function displayTransaction(){
 
     
     
-        transactions.find(function(x){
-           if(x.id === id) {
-            document.getElementById("update-title").value = x.title;
-            document.getElementById("update-type").value = x.type;
-            document.getElementById("update-amount").value = x.amount;
-            document.getElementById("update-date").value = x.date;
-        }
-       })      
+       const transaction = transactions.find(function(x){
+        return x.id === id }); 
+           
+            document.getElementById("update-title").value = transaction.title;
+            document.getElementById("update-type").value = transaction.type;
+            document.getElementById("update-amount").value = transaction.amount;
+            document.getElementById("update-date").value = transaction.date;
+            
      
 };
 
@@ -106,15 +106,16 @@ function displayTransaction(){
            return alert("The amount must be grater than 0");
         }
          
-    
-        transactions.find(function(x){
-            if (x.id === currentEditId)
-       
-            x.title = document.getElementById("update-title").value;
-            x.type = document.getElementById("update-type").value;
-            x.amount = Number(document.getElementById("update-amount").value);
-            x.date = document.getElementById("update-date").value; 
-        });
+        const transaction = transactions.find(function (x) {
+            return x.id === currentEditId;
+            });
+         
+            transaction.title = document.getElementById("update-title").value;
+            transaction.type = document.getElementById("update-type").value;
+            transaction.amount = amount;
+            transaction.date = document.getElementById("update-date").value; 
+        
+        
          
     document.getElementById("mynewForm").reset();
     document.getElementById("mynewForm").classList.add("hidden");
@@ -153,7 +154,7 @@ function deleteTransaction(id){
     balanceshow();
     lastexpense();
      
-    const title = document.getElementById("last-title");
+    const title = document.getElementById("last-title"); //معرف للمرة الثانية
     if (transactions.length == 0){
         title.classList.add("hidden1");  
     }
