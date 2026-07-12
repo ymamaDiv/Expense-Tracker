@@ -1,8 +1,11 @@
+
+
+
+
 let transactions=[];
 
-
-
 let form = document.getElementById("myForm");
+
 
 function showForm() {
     form.classList.remove("hidden");
@@ -21,12 +24,17 @@ function addTransaction(){
     } else{
   let transaction = {id: Date.now() , title: transtitle , type: transtype , amount: Number(transamount) , date:transdate};
   transactions.push(transaction);
+  console.log(transactions);
+   
+  localStorage.setItem( "transaction", JSON.stringify(transactions));
+
   form.reset();
   form.classList.add("hidden");
-  console.log(transactions);
   displayTransaction();
   balanceshow();
-  lastexpense();}
+  lastexpense();
+}
+
   
 };
 
@@ -62,6 +70,7 @@ function displayTransaction(){
    lastTransactions.forEach(function(transaction) {
 
         // أنشئ عنصر li
+        
         const li = document.createElement("li");
 
         // أضف بيانات العملية
@@ -73,10 +82,15 @@ function displayTransaction(){
 
         // أضفها داخل ul
         transactionList.appendChild(li);
-
+        
+        
+       
+      
     });
   };
-
+ 
+    
+ 
 
   let currentEditId = null;
   function editTransaction(id){
@@ -115,7 +129,7 @@ function displayTransaction(){
             transaction.amount = amount;
             transaction.date = document.getElementById("update-date").value; 
         
-        
+    
          
     document.getElementById("mynewForm").reset();
     document.getElementById("mynewForm").classList.add("hidden");
@@ -125,6 +139,7 @@ function displayTransaction(){
     displayTransaction();
     balanceshow();
     lastexpense();
+    localStorage.setItem( "transactions", JSON.stringify(transactions));   
 };
     
  
@@ -149,11 +164,14 @@ function deleteTransaction(id){
   });
      if (index !== -1){
     transactions.splice(index, 1);}
-  
+    
+   
     displayTransaction();
     balanceshow();
     lastexpense();
-     
+    
+    
+    localStorage.setItem( "transactions", JSON.stringify(transactions));
     const title = document.getElementById("last-title"); //معرف للمرة الثانية
     if (transactions.length == 0){
         title.classList.add("hidden1");  
@@ -171,4 +189,13 @@ function lastexpense(){
      amount: ${transactions[transactions.length - 1].amount} SR`;
    };
 };
+
+const data= localStorage.getItem("transaction");
+
+if (data !=null){
+    transactions = JSON.parse(localStorage.getItem("transaction"));
+    displayTransaction();
+    balanceshow();
+    lastexpense();
+}
 
